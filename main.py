@@ -1,10 +1,34 @@
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)                    # Create a new instance of the Flask class called "app"
+title = 'Book List'
+books = [
+    {
+        'id': 0,
+        'title': 'A Fire Upon the Deep',
+        'author': 'Vernor Vinge',
+        'year': 1992,
+        'description': 'A novel attributed to C.S. Lewis'
+    },
+    {
+        'id': 1,
+        'title': 'The Salmon of Doubt',
+        'author': 'Ahmad rizani',
+        'year': 1992,
+        'description': 'A novel attributed to C.S. Lewis'
+    }
+]
 
-@app.route('/')             #halaman utama web
+#route for homepage book_list.html
 
-def hello_world():
-    return 'Hello sabih rizani'
+@app.route('/')
+def book_list():
+    return render_template('book_list.html', Title=title, books=books)
+
+@app.route('/books/<int:book_id>')
+def book_detail(book_id):
+    book = books[book_id]
+    return render_template('book_detail.html', book=book)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
