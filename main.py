@@ -13,7 +13,7 @@ books = [
         'id': 1,
         'title': 'The Salmon of Doubt',
         'author': 'Ahmad rizani',
-        'year': 1992,
+        'year': 1999,
         'description': 'A novel attributed to C.S. Lewis'
     }
 ]
@@ -26,8 +26,11 @@ def book_list():
 
 @app.route('/books/<int:book_id>')
 def book_detail(book_id):
-    book = books[book_id]
-    return render_template('book_detail.html', book=book)
+    book = next((book for book in books if book['id'] == book_id), None)
+    if book:
+        return render_template('book_detail.html', book=book)
+    else:
+        return 'Book not found'
 
 
 if __name__ == '__main__':
